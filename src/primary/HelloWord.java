@@ -1,7 +1,5 @@
 package primary;
 
-import javax.sound.midi.MetaEventListener;
-
 import primary.entity.Hero;
 
 public class HelloWord {
@@ -13,22 +11,18 @@ public class HelloWord {
 	}
 
 	public static void main(String[] args) {
-
-		Hero garen = new Hero("garen");
+		Hero garen = new Hero("garen", 1000, 50);
 		// TODO Auto-generated method stub
-		System.out.println("Hello Word!");
-		int age = 2;
-		byte b = 5;
-		int i1 = 10;
-		int i2 = 300;
-		b = (byte) i1;
-		b = (byte) i2;
-		short a = 1;
-		short c = 2;
-		System.out.println(a + c);
-		System.out.println(b + "   " + i2);
+		System.out.println("Hello Word!" + garen.getHp());
 
 		System.out.println(bmi(1.61f, 50));
+		int xuepin = 100;
+		garen.huixue(xuepin);
+		System.out.println("" + garen.getHp());
+		garen.setHp(30);
+		System.out.println("掉血了：" + garen.getHp());
+		garen.revive(garen);
+		System.out.println("复活之后：" + garen.getHp());
 
 	}
 

@@ -8,12 +8,29 @@ public class Hero {
 
 	public Hero(String name) {
 		this.name = name;
-		this.moveSpeed = 0;
-		this.hp = 0;
-		this.hujia = 0;
+
 	}
 
-	void addSped(int speedplus) {
+	public Hero(String name, float hp) {
+		this(name);
+		this.hp = hp;
+	}
+
+	public Hero(String name, float hp, int speed) {
+		this(name, hp);
+		this.moveSpeed = speed;
+		this.hujia = 50;
+	}
+
+	public void setHp(float hp) {
+		this.hp = hp;
+	}
+
+	public float getHp() {
+		return hp;
+	}
+
+	void addSpeed(int speedplus) {
 		this.moveSpeed += speedplus;
 	}
 
@@ -22,8 +39,20 @@ public class Hero {
 	}
 
 	void legendary() {
-
 		System.out.println("我超神了！");
+	}
+
+	// 回血
+	public void huixue(int xp) {
+		this.hp = this.hp + xp;
+		// 回血完毕后，血瓶=0
+		xp = 0;
+	}
+
+	// 复活
+	public void revive(Hero h) {
+		// h = new Hero("盖伦", 1000);
+		h.setHp(1000);
 	}
 
 	public static void main(String[] args) {
