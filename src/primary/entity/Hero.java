@@ -1,14 +1,15 @@
 package primary.entity;
 
 public class Hero {
+	private int heroId;
 	String name;
 	int moveSpeed;
 	float hp, hujia;
 	String sayAfterDead = "wo ri";
+	static float hpUp = 9999;
 
 	public Hero(String name) {
 		this.name = name;
-
 	}
 
 	public Hero(String name, float hp) {

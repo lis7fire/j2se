@@ -1,5 +1,7 @@
 package primary;
 
+import java.util.Arrays;
+
 import primary.entity.Hero;
 
 public class HelloWord {
@@ -23,6 +25,21 @@ public class HelloWord {
 		System.out.println("掉血了：" + garen.getHp());
 		garen.revive(garen);
 		System.out.println("复活之后：" + garen.getHp());
+		int[] a = new int[] { 6, 2, 7, 3, 5 };
+		int[] b = new int[10];
+		int c = (int) (Math.random() * 100);
+		Arrays.toString(a);
+		System.arraycopy(a, 0, b, 1, 3);
+		System.out.println(Arrays.toString(b));
+		b = Arrays.copyOfRange(a, 0, 7);
+		System.out.println(Arrays.toString(b));
+		Arrays.sort(b);
+		c=Arrays.binarySearch(b,6);
+		System.out.println(Arrays.toString(b));
+		System.out.println(Arrays.equals(a, b));
+		Arrays.fill(b, 'q');
+		c=Arrays.binarySearch(b,'q');
+		System.out.println(c);
 
 	}
 
