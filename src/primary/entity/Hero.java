@@ -35,27 +35,33 @@ public class Hero {
 		this.moveSpeed += speedplus;
 	}
 
-	void keng() {
-		System.out.println("ÎÒ¿Ó¶ÓÓÑÁË£¡");
+	public void keng() {
+		System.out.println("Hero æˆ‘å‘é˜Ÿå‹äº†ï¼");
 	}
 
 	void legendary() {
-		System.out.println("ÎÒ³¬ÉñÁË£¡");
+		System.out.println("æˆ‘è¶…ç¥äº†ï¼");
 	}
 
-	// »ØÑª
+	// å›è¡€
 	public void huixue(int xp) {
 		this.hp = this.hp + xp;
-		// »ØÑªÍê±Ïºó£¬ÑªÆ¿=0
+		// å›è¡€å®Œæ¯•åï¼Œè¡€ç“¶=0
 		xp = 0;
 	}
-
-	// ¸´»î
+    //éšè—çˆ¶ç±»çš„battleWinæ–¹æ³•
+    public static void battleWin(){
+        System.out.println("Hero battle win");
+    }   
+	
+	// å¤æ´»
 	public void revive(Hero h) {
-		// h = new Hero("¸ÇÂ×", 1000);
+		// h = new Hero("ç›–ä¼¦", 1000);
 		h.setHp(1000);
 	}
-
+    public void finalize(){
+        System.out.println("è¿™ä¸ª ç±»Hero æ­£åœ¨è¢«å›æ”¶");
+    }
 	public static void main(String[] args) {
 		Hero name1 = new Hero("gailun");
 		name1.moveSpeed = 12;

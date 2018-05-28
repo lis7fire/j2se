@@ -3,12 +3,13 @@ package primary;
 import java.util.Arrays;
 
 import primary.entity.Hero;
+import primary.entity.charactor.Support;
 
 public class HelloWord {
 	Hero teemo = new Hero("teemo");
 
 	public int method1(final int j) {
-		// j = 5; //Õâ¸öÄÜ·ñÖ´ĞĞ£¿
+		// j = 5; //è¿™ä¸ªèƒ½å¦æ‰§è¡Œï¼Ÿ
 		return j;
 	}
 
@@ -22,9 +23,9 @@ public class HelloWord {
 		garen.huixue(xuepin);
 		System.out.println("" + garen.getHp());
 		garen.setHp(30);
-		System.out.println("µôÑªÁË£º" + garen.getHp());
+		System.out.println("æ‰è¡€äº†ï¼š" + garen.getHp());
 		garen.revive(garen);
-		System.out.println("¸´»îÖ®ºó£º" + garen.getHp());
+		System.out.println("å¤æ´»ä¹‹åï¼š" + garen.getHp());
 		int[] a = new int[] { 6, 2, 7, 3, 5 };
 		int[] b = new int[10];
 		int c = (int) (Math.random() * 100);
@@ -34,13 +35,20 @@ public class HelloWord {
 		b = Arrays.copyOfRange(a, 0, 7);
 		System.out.println(Arrays.toString(b));
 		Arrays.sort(b);
-		c=Arrays.binarySearch(b,6);
+		c = Arrays.binarySearch(b, 6);
 		System.out.println(Arrays.toString(b));
 		System.out.println(Arrays.equals(a, b));
 		Arrays.fill(b, 'q');
-		c=Arrays.binarySearch(b,'q');
+		c = Arrays.binarySearch(b, 'q');
 		System.out.println(c);
+		Hero hhh = new Support("ggg", 100, 500);
+		hhh.keng();
 
+		Support sss = (Support) hhh; // new Support("sss", 100, 30);
+		sss.keng2();
+
+		System.out.println(hhh instanceof Support);
+		System.out.println(hhh.getClass());
 	}
 
 	static float bmi(float high, float haven) {
