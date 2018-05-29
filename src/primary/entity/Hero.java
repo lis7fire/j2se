@@ -1,6 +1,8 @@
 package primary.entity;
 
-public class Hero {
+import java.io.Serializable;
+
+public class Hero  implements Serializable{
 	private int heroId;
 	String name;
 	int moveSpeed;
