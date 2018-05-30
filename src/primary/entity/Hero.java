@@ -1,74 +1,90 @@
+
 package primary.entity;
 
 import java.io.Serializable;
 
-public class Hero  implements Serializable{
-	private int heroId;
-	String name;
-	int moveSpeed;
-	float hp, hujia;
-	String sayAfterDead = "wo ri";
-	static float hpUp = 9999;
+public class Hero implements Serializable {
 
-	public Hero(String name) {
-		this.name = name;
-	}
+    private int heroId;
 
-	public Hero(String name, float hp) {
-		this(name);
-		this.hp = hp;
-	}
+    String name;
 
-	public Hero(String name, float hp, int speed) {
-		this(name, hp);
-		this.moveSpeed = speed;
-		this.hujia = 50;
-	}
+    int moveSpeed;
 
-	public void setHp(float hp) {
-		this.hp = hp;
-	}
+    float hp, hujia;
 
-	public float getHp() {
-		return hp;
-	}
+    String sayAfterDead = "wo ri";
 
-	void addSpeed(int speedplus) {
-		this.moveSpeed += speedplus;
-	}
+    static float hpUp = 9999;
 
-	public void keng() {
-		System.out.println("Hero 我坑队友了！");
-	}
+    public Hero(String name) {
+        this.name = name;
+    }
 
-	void legendary() {
-		System.out.println("我超神了！");
-	}
+    public Hero(String name, float hp) {
+        this(name);
+        this.hp = hp;
+    }
 
-	// 回血
-	public void huixue(int xp) {
-		this.hp = this.hp + xp;
-		// 回血完毕后，血瓶=0
-		xp = 0;
-	}
-    //隐藏父类的battleWin方法
-    public static void battleWin(){
+    public Hero(String name, float hp, int speed) {
+        this(name, hp);
+        this.moveSpeed = speed;
+        this.hujia = 50;
+    }
+
+    public void setHp(float hp) {
+        this.hp = hp;
+    }
+
+    public float getHp() {
+        return hp;
+    }
+
+    @Override
+    public String toString() {
+        return "Hero [英雄名字： " + name + ", moveSpeed=" + moveSpeed + ", hp=" + hp + ", hujia=" + hujia
+                + ", sayAfterDead=" + sayAfterDead + "]";
+    }
+
+    void addSpeed(int speedplus) {
+        this.moveSpeed += speedplus;
+    }
+
+    public void keng() {
+        System.out.println("Hero 我坑队友了！");
+    }
+
+    void legendary() {
+        System.out.println("我超神了！");
+    }
+
+    // 回血
+    public void huixue(int xp) {
+        this.hp = this.hp + xp;
+        // 回血完毕后，血瓶=0
+        xp = 0;
+    }
+
+    // 隐藏父类的battleWin方法
+    public static void battleWin() {
         System.out.println("Hero battle win");
-    }   
-	
-	// 复活
-	public void revive(Hero h) {
-		// h = new Hero("盖伦", 1000);
-		h.setHp(1000);
-	}
-    public void finalize(){
+    }
+
+    // 复活
+    public void revive(Hero h) {
+        // h = new Hero("盖伦", 1000);
+        h.setHp(1000);
+    }
+
+    public void finalize() {
         System.out.println("这个 类Hero 正在被回收");
     }
-	public static void main(String[] args) {
-		Hero name1 = new Hero("gailun");
-		name1.moveSpeed = 12;
-		name1.hp = 3000;
-		name1.hujia = 300;
-		System.out.println(name1);
-	}
+
+    public static void main(String[] args) {
+        Hero name1 = new Hero("gailun");
+        name1.moveSpeed = 12;
+        name1.hp = 3000;
+        name1.hujia = 300;
+        System.out.println(name1);
+    }
 }
