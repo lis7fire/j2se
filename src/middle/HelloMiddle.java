@@ -1,8 +1,14 @@
 package middle;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,10 +21,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+import middle.testhreads.MyThreadPool;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import primary.entity.Hero;
 
 public class HelloMiddle {
+
+    static Logger logger = LogManager.getLogger(HelloMiddle.class);
 
     static void testArrList() {
 
@@ -47,7 +63,8 @@ public class HelloMiddle {
 	System.err.println(testNone);
 	Iterator ith = testNone.iterator();
 	while (ith.hasNext()) {
-	    System.err.println("迭代器； " + ith.next());
+	    logger.debug("迭代器； " + ith.next());
+	    // System.err.println("迭代器； " + ith.next());
 	}
 	LinkedList linkList = new LinkedList();
 	linkList.add(6);
@@ -150,7 +167,7 @@ public class HelloMiddle {
 
     }
 
-    static void muluteThread() {
+    void muluteThread() {
 	MulteThread manythread1 = new MulteThread("t1", 600);
 	MulteThread manythread2 = new MulteThread("t2", 900);
 	manythread1.start();
@@ -164,14 +181,133 @@ public class HelloMiddle {
 	}
     }
 
-    public static void main(String[] args) {
-	// TODO 自动生成的方法存根
-	System.out.println("进入中级教程： 下面是容器/集合的实验： ");
-	// testArrList();
-	testList();
-	// testMap();
-	testCompare();
-	muluteThread();
+    static void testThreadCi() {
+	// 线程池应该叫任务池才合理才对。
+	int NUM = 10;
+	MyThreadPool wode = new MyThreadPool(4);
+	logger.fatal("生成线程池，等待2s再创建任务以便所有空线程初始化完成！");
+	try {
+	    Thread.sleep(2000);
+	} catch (InterruptedException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
+	logger.fatal("等待2s后！开始创建任务");
+	for (int i = 0; i < NUM; i++) {
+	    final int itmp = i;
+	    Runnable task = new Runnable() {
+		@Override
+		public void run() {
+		    // TODO Auto-generated method stub
+		    logger.warn("这里执行真正的任务,执行任务时间0.5s;" + itmp);
+		    try {
+			Thread.sleep(500);
+		    } catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		    }
+		}
+	    };
+	    logger.fatal("每隔1s，在任务队列尾部添加 任务" + i);
+	    try {
+		Thread.sleep(1000);
+	    } catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+
+	    wode.add(task, "task" + i);
+	    ThreadPoolExecutor threads = new ThreadPoolExecutor(2, 3, 3,
+		    TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
+	    // threads.execute(task);
+
+	}
+
     }
 
+    public static void connectMssql() {
+	String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+	String dbURL = "jdbc:sqlserver://localhost:1433; DatabaseName=sample";
+	String connectDbUrl = "jdbc:sqlserver://112.24.14.203:1433;"
+		+ "databaseName=GroupData1"; // 连接服务器和数据库GroupData1
+					     // ;integratedSecurity=true;
+	String userName = "sa"; // 默认用户名
+	String userPwd = "123456"; // 密码
+
+	// Declare the JDBC objects.
+	Connection con = null;
+	Statement stmt = null;
+	ResultSet rs = null;
+	// Establish the connection.
+	try {
+	    // 建立文件输出流 和 StringBuilder 保存数据库结果，以便将数据库结果写入txt文本
+	    File cun = new File("./data/b.txt");
+	    FileWriter fWriter = new FileWriter(cun, true);
+	    StringBuilder sbBuilder = new StringBuilder("开始\r\n");
+	    if (cun.isFile()) {
+	    }
+
+	    Class.forName(driverName);// 使用反射 加载JDBC驱动
+	    con = DriverManager.getConnection(connectDbUrl, userName, userPwd);
+
+	    logger.info("开始连接数据库，并且搜索！");
+	    // Create and execute an SQL statement that returns some data.
+	    String SQL = "SELECT top 10 * FROM Group2";
+	    stmt = con.createStatement();
+	    rs = stmt.executeQuery(SQL);
+
+	    // Iterate through the data in the result set and display it.
+	    while (rs.next()) {
+		sbBuilder.append(rs.getString(1) + ";" + rs.getString(2) + ";"
+			+ rs.getString(3) + ";" + rs.getString(4) + ";"
+			+ rs.getString(5) + ";" + rs.getString(6) + ";"
+			+ rs.getString(7) + "\r\n");
+		// logger.info(rs.getString(7));
+	    }
+	    logger.info("数据库遍历成功，开始写入文件");
+
+	    sbBuilder.append("结束\r\n");
+	    fWriter.write(sbBuilder.toString());
+	    fWriter.write(sbBuilder.toString(), 10, 100);
+	    fWriter.close();
+	    logger.info("文件写入成功！");
+
+	} catch (ClassNotFoundException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (Exception e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} finally {
+	    if (rs != null)
+		try {
+		    rs.close();
+		} catch (Exception e) {
+		}
+	    if (stmt != null)
+		try {
+		    stmt.close();
+		} catch (Exception e) {
+		}
+	    if (con != null)
+		try {
+		    con.close();
+		} catch (Exception e) {
+		}
+	}
+
+    }
+
+    public static void main(String[] args) {
+	// TODO 自动生成的方法存根
+	logger.info("进入中级教程： 下面是容器/集合的实验： ");
+	// testArrList();
+	// testList();
+	// testMap();
+	// testCompare();
+	HelloMiddle helloMiddle = new HelloMiddle();
+	// helloMiddle.muluteThread(); // 解决static方法中无法调用非静态方法的问题。
+	// testThreadCi();
+	connectMssql();
+    }
 }
